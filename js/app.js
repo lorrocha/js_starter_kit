@@ -1,5 +1,6 @@
-var answer = Math.floor(Math.random()*(20 + 1));
+var answer = Math.floor(Math.random()*(MAX + 1));
 var guessCount = 0;
+var MAX = 30
 
 var submitGuess = function() {
   $("#input-box").keypress(function(e) {
@@ -10,7 +11,7 @@ var submitGuess = function() {
 };
 
 var newGame = function() {
-  answer = Math.floor(Math.random()*(20 + 1));
+  answer = Math.floor(Math.random()*(MAX + 1));
   guessCount = 0;
   $(".alert-box").html('Guess a number between 0-20');
   console.log('New Game');
@@ -30,11 +31,14 @@ var guesstimate = function(num) {
 
 var compareGuess = function(num) {
   guessCount++;
-  if (answer == num) {
-    $(".alert-box").append('<br><div><b>So rad! You totally won!!</b><br>You won in '+ guessCount + ' tries!</div>');
-    newGame();
+  if (!parseInt(num)){
+    $(".alert-box").html('Invalid input, must enter a number between 0 and ' + MAX + '.');
   } else {
-    $(".alert-box").append('<div>Woops! Try again! ' + num + guesstimate(num) + '</div>');
+    if (answer == num) {
+      $(".alert-box").append('<br><div><b>So rad! You totally won!!</b><br>You won in '+ guessCount + ' tries!</div>');
+    } else {
+      $(".alert-box").append('<div>Woops! Try again! ' + num + guesstimate(num) + '</div>');
+    }
   }
 }
 
@@ -43,9 +47,6 @@ var getUserGuess = function() {
   compareGuess(guess);
   $('#input-box').val('');
 };
-
-
-
 
 $(document).ready(function(){
   submitGuess();
